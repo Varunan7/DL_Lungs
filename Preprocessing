@@ -1,0 +1,38 @@
+def load_images_and_masks(base_path):
+    categories = ['Normal', 'COVID-19', 'Non-COVID']
+    image_data = []
+    mask_data = []
+    labels = []
+
+    for category in categories:
+        image_folder = os.path.join(base_path, category, 'images')
+        mask_folder = os.path.join(base_path, category, 'lung masks')
+        
+        for image_name in os.listdir(image_folder):
+            image_path = os.path.join(image_folder, image_name)
+            mask_path = os.path.join(mask_folder, image_name)
+
+            if os.path.exists(mask_path):
+                # Load image and mask
+                image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+                
+                # Convert to array
+                image = img_to_array(image)
+                mask = img_to_array(mask)
+
+                image_data.append(image)
+                mask_data.append(mask)
+                labels.append(category)
+
+    return np.array(image_data), np.array(mask_data), np.array(labels)
+
+# Define the base path to your main folder
+base_path = r'//Users/varunangurushev/Downloads/Val'
+
+# Load images and masks
+images, masks, labels = load_images_and_masks(base_path)
+
+# Encode labels
+label_encoder = LabelEncoder()
+labels = label_encoder.fit_transform(labels)
