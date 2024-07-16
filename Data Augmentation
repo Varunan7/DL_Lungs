@@ -1,0 +1,76 @@
+# data is a NumPy array of shape (num_samples, height, width, 2*channels)
+# where the first half of the channels are lung images and the second half are mask images
+
+# Split the main array into lung and mask images
+num_samples, height, width, channels = data.shape
+lung_images = data[:, :, :, :channels//2]
+mask_images = data[:, :, :, channels//2:]
+
+#Reshape labels to match the shape of image data
+labels = labels.reshape(-1, 1, 1, 1)
+
+# Define data augmentation parameters
+datagen = ImageDataGenerator(
+    rotation_range=20,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
+)
+
+# Custom generator to synchronize augmentation for lung and mask images
+def custom_generator(lung_images, mask_images, labels, batch_size):
+    gen_lung = datagen.flow(lung_images, batch_size=batch_size)
+    gen_mask = datagen.flow(mask_images, batch_size=batch_size)
+    gen_labels = datagen.flow(labels, batch_size=batch_size)
+    while True:
+        lung_batch = gen_lung.next()
+        mask_batch = gen_mask.next()
+        label_batch = gen_labels.next().flatten()
+        yield lung_batch, mask_batch, label_batch
+
+# Create an instance of the custom generator
+batch_size = 32
+augmented_data_generator = custom_generator(lung_images, mask_images, labels, batch_size)
+
+# Function to visualize augmented images and masks
+def visualize_augmented_images(original_lung_images, original_mask_images, augmented_lung_images, augmented_mask_images, num_images=5):
+    plt.figure(figsize=(20, 10))
+    for i in range(num_images):
+        # Original lung image
+        plt.subplot(4, num_images, i + 1)
+        plt.imshow(original_lung_images[i].squeeze(), cmap='gray')
+        plt.title('Original Lung')
+        plt.axis('off')
+        
+        # Original mask image
+        plt.subplot(4, num_images, i + 1 + num_images)
+        plt.imshow(original_mask_images[i].squeeze(), cmap='gray')
+        plt.title('Original Mask')
+        plt.axis('off')
+        
+        # Augmented lung image
+        plt.subplot(4, num_images, i + 1 + 2 * num_images)
+        plt.imshow(augmented_lung_images[i].squeeze(), cmap='gray')
+        plt.title('Augmented Lung')
+        plt.axis('off')
+        
+        # Augmented mask image
+        plt.subplot(4, num_images, i + 1 + 3 * num_images)
+        plt.imshow(augmented_mask_images[i].squeeze(), cmap='gray')
+        plt.title('Augmented Mask')
+        plt.axis('off')
+    plt.show()
+
+# Generate a batch of augmented images and masks
+original_lung_images = lung_images[:5]  # Take the first 5 lung images for visualization
+original_mask_images = mask_images[:5]  # Take the first 5 mask images for visualization
+
+augmented_lung_images_batch, augmented_mask_images_batch, augmented_label_batch = next(augmented_data_generator)
+augmented_lung_images = augmented_lung_images_batch[:5]  # Take the first 5 augmented lung images for visualization
+augmented_mask_images = augmented_mask_images_batch[:5]  # Take the first 5 augmented mask images for visualization
+
+# Visualize the original and augmented images and masks
+visualize_augmented_images(original_lung_images, original_mask_images, augmented_lung_images, augmented_mask_images)
