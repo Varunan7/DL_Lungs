@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import random
+
 # Function to display an image and its mask
 def display_image_and_mask(image, mask):
     plt.figure(figsize=(10, 5))
@@ -12,10 +15,10 @@ def display_image_and_mask(image, mask):
     plt.show()
 
 # Choose a random index
-random_index_or = random.randint(2001, len(images) - 1)
-random_index_eq = random.randint(2001, len(images) - 1)
+random_index_or = random.randint(2001, len(data) - 1)
+random_index_eq = random.randint(2001, len(equalized_images) - 1)
 
 # Display the corresponding lung X-ray image and its mask
-lung_image = data[random_index_or][:, :, 0]
-eq_iamge = equalized_images[random_index_eq][:, :, 0]
-display_image_and_mask(lung_image, eq_iamge)
+lung_image = data[random_index_or]
+eq_image = equalized_images[random_index_eq]
+display_image_and_mask(lung_image, eq_image)
