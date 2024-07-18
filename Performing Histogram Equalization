@@ -1,14 +1,12 @@
-def histogram_equalization(image):
+import numpy as np
+import cv2
 
-    # if it's not already grayscale Convert 
+def histogram_equalization(image):
+    # If the image is not already grayscale, convert it
     if len(image.shape) == 3:
-        gray = np.mean(image, axis=-1).astype(np.uint8)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     else:
         gray = image
-
-     #Data Type Conversion:
-    if gray.dtype != np.uint8:
-        gray = gray.astype(np.uint8)
 
     # Apply histogram equalization
     equalized = cv2.equalizeHist(gray)
@@ -17,10 +15,11 @@ def histogram_equalization(image):
 
 # Perform histogram equalization
 equalized_images = []
-for i,image in enumerate(data):
+for image in data:
     equalized_image = histogram_equalization(image)
     
+    # If the original image was in color, replicate the equalized image across three channels
     if len(image.shape) == 3:
-        equalized_image = np.stack([equalized_image] * 2, axis=-1)
+        equalized_image = cv2.cvtColor(equalized_image, cv2.COLOR_GRAY2BGR)
 
     equalized_images.append(equalized_image)
