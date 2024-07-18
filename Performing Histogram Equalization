@@ -6,7 +6,7 @@ def histogram_equalization(image):
     else:
         gray = image
 
-     # Ensure the input image has the correct data type (uint8)
+     #Data Type Conversion:
     if gray.dtype != np.uint8:
         gray = gray.astype(np.uint8)
 
