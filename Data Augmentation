@@ -1,3 +1,8 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+# Assume data and labels are already defined
 # data is a NumPy array of shape (num_samples, height, width, 2*channels)
 # where the first half of the channels are lung images and the second half are mask images
 
@@ -6,7 +11,7 @@ num_samples, height, width, channels = data.shape
 lung_images = data[:, :, :, :channels//2]
 mask_images = data[:, :, :, channels//2:]
 
-#Reshape labels to match the shape of image data
+# Reshape labels to match the shape of image data
 labels = labels.reshape(-1, 1, 1, 1)
 
 # Define data augmentation parameters
@@ -22,9 +27,9 @@ datagen = ImageDataGenerator(
 
 # Custom generator to synchronize augmentation for lung and mask images
 def custom_generator(lung_images, mask_images, labels, batch_size):
-    gen_lung = datagen.flow(lung_images, batch_size=batch_size)
-    gen_mask = datagen.flow(mask_images, batch_size=batch_size)
-    gen_labels = datagen.flow(labels, batch_size=batch_size)
+    gen_lung = datagen.flow(lung_images, batch_size=batch_size, seed=1)
+    gen_mask = datagen.flow(mask_images, batch_size=batch_size, seed=1)
+    gen_labels = datagen.flow(labels, batch_size=batch_size, seed=1)
     while True:
         lung_batch = gen_lung.next()
         mask_batch = gen_mask.next()
