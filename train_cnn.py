@@ -8,7 +8,7 @@ covid_path = os.path.join(base_path, 'COVID-19', 'images')
 non_covid_path = os.path.join(base_path, 'Non-COVID', 'images')
 normal_path = os.path.join(base_path, 'Normal', 'images')
 
-# Load images and assign labels
+# Load images and assign labels for each
 def load_images_from_folder(folder, label):
     images = []
     labels = []
