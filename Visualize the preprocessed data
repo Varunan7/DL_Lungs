@@ -1,4 +1,4 @@
-# Function to display an image and its mask
+# Functions to display an image and its mask
 def display_image_and_mask(image, mask):
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1)
@@ -14,6 +14,6 @@ def display_image_and_mask(image, mask):
 # Choose a random index
 random_index = random.randint(2005, len(images) - 1)
 
-# Display the corresponding lung X-ray image and its mask
+# Display the  corresponding lung X-ray image and its mask
 lung_image, mask_image = data[random_index][:, :, 0], data[random_index][:, :, 1]
 display_image_and_mask(lung_image, mask_image)
