@@ -19,5 +19,5 @@ This repository contains code to train and deploy CNN and DNN models for X-ray i
 
 1. **Clone the repository**:
    ```bash
-   git clone <git@github.com:Varunan7/DL_Lungs.git>
+   git clone https://github.com/Varunan7/DL_Lungs.git
    cd XRayClassificationDeployment
