@@ -5,3 +5,5 @@ Pillow
 streamlit
 requests
 gunicorn
+PIL 
+pandas
