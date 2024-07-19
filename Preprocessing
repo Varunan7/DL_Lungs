@@ -27,7 +27,7 @@ def load_images_and_masks(base_path):
 
     return np.array(image_data), np.array(mask_data), np.array(labels)
 
-# Define the base path to your main folder
+# Define base path to your main folder
 base_path = r'//Users/varunangurushev/Downloads/Val'
 
 # Load images and masks
