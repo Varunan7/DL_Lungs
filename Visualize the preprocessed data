@@ -11,7 +11,7 @@ def display_image_and_mask(image, mask):
     plt.axis('off')
     plt.show()
 
-# Choose a random index
+# Choose a random index.
 random_index = random.randint(2005, len(images) - 1)
 
 # Display the  corresponding lung X-ray image and its mask
