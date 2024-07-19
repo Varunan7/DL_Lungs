@@ -1,4 +1,4 @@
-# Functions to display an image and its mask
+# Functions to display image and its mask
 def display_image_and_mask(image, mask):
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1)
